@@ -24,6 +24,9 @@ unilinks test tool
 adb shell 'am start -W -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://filejoker.net/qjovz93qvajx/video_6000mb.mp4"'
 ```
 
+## Build android:
+flutter build apk --dart-define=app.flavor=paid --release
+
 ## ActiveSessionResponse example
 
 ```json
