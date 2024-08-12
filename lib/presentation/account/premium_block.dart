@@ -43,7 +43,7 @@ class PremiumBlock extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.only(top: 20),
                     child: ButtonApp(
-                      text: 'Select Plan',
+                      text: 'Buy premium',
                       color: mainBackColor,
                       borderColor: accentColor,
                       textStyle: h2SbWhiteStyle,

@@ -23,8 +23,28 @@ class MainScreen extends StatefulWidget {
 
   @override
   State<MainScreen> createState() => _MainScreenState();
+}
 
-  static Future<void> checkSubscriptions(BuildContext context) async {
+class _MainScreenState extends State<MainScreen> {
+  DateTime? lastPopButtonTappedTime;
+
+  static const Duration popButtonDuration = Duration(seconds: 2);
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Navigating to download widget
+    final UniLinksBloc uniLinksBloc = context.read();
+    if (uniLinksBloc.state is UniLinksUnhandledEventState) {
+      context.read<MainScreenPageIndexCubit>().setPageIndex(pageIndex: 2);
+    }
+
+    // Checking subscriptions
+    checkSubscriptions();
+  }
+
+  void checkSubscriptions() async {
     final PurchaseCubit purchaseCubit = context.read();
     final AuthBloc authBloc = context.read();
 
@@ -86,26 +106,6 @@ class MainScreen extends StatefulWidget {
     }
 
     purchaseCubit.dispose();
-  }
-}
-
-class _MainScreenState extends State<MainScreen> {
-  DateTime? lastPopButtonTappedTime;
-
-  static const Duration popButtonDuration = Duration(seconds: 2);
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Navigating to download widget
-    final UniLinksBloc uniLinksBloc = context.read();
-    if (uniLinksBloc.state is UniLinksUnhandledEventState) {
-      context.read<MainScreenPageIndexCubit>().setPageIndex(pageIndex: 2);
-    }
-
-    // Checking subscriptions
-    MainScreen.checkSubscriptions(context);
   }
 
   void _onItemTapped(int index) {

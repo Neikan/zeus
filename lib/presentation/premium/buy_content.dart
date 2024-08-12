@@ -66,7 +66,7 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
 
   Widget get purchaseProcessWidget => purchaseProcess == null
       ? ButtonApp(
-          text: 'Buy Premium',
+          text: 'Buy premium',
           color: accentColor,
           onTap: () {
             final PurchaseCubit purchaseCubit = context.read();

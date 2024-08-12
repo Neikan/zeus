@@ -66,21 +66,17 @@ class PremiumItem extends StatelessWidget {
                 border: Border.all(color: extractorColor)),
             child: Column(children: [
               Center(
-                child: RichText(
-                    text: TextSpan(children: [
-                  const TextSpan(
-                    text: 'As low as  ',
-                    style: h3RStyle,
-                  ),
-                  TextSpan(
-                    text: '\$${subscribeData.price}',
-                    style: h1Style.copyWith(color: Colors.white),
-                  ),
-                  const TextSpan(
-                    text: '  per month',
-                    style: h3RStyle,
-                  ),
-                ])),
+                child: Text(
+                  '\$${subscribeData.price}',
+                  style: h1Style.copyWith(color: Colors.white),
+                ),
+              ),
+              const SizedBox(height: 5),
+              Center(
+                child: Text(
+                  subscribeData.traffic,
+                  style: h3SbStyle,
+                ),
               ),
               const SizedBox(height: 20),
               !isVisible
@@ -123,33 +119,6 @@ class PremiumItem extends StatelessWidget {
               isVisible
                   ? Column(
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 16),
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/arrow-up-right.svg',
-                                  width: 20,
-                                  height: 20,
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 16),
-                                  padding: const EdgeInsets.only(bottom: 16),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.8 -
-                                          92,
-                                  decoration: const BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: optionalColor))),
-                                  child: Text(
-                                    subscribeData.traffic,
-                                    style: h3RStyle,
-                                  ),
-                                )
-                              ]),
-                        ),
                         Container(
                           margin: const EdgeInsets.only(top: 16),
                           child: Row(
@@ -319,7 +288,7 @@ class PremiumItem extends StatelessWidget {
                           child: BlocBuilder<CurrentServiceCubit, ServiceType>(
                             builder: (context, currentServiceType) {
                               return ButtonApp(
-                                text: 'Select Plan',
+                                text: 'Buy premium',
                                 color: accentColor,
                                 onTap: () {
                                   if (canBuy != true) {

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zeusfile/constants.dart';
 import 'package:zeusfile/data/statuses_cubit/current_service_cubit.dart';
 import 'package:zeusfile/presentation/account/logout_screen.dart';
 import 'package:zeusfile/presentation/authorization/bloc/auth_bloc.dart';
-import 'package:zeusfile/presentation/main/main_screen.dart';
 import 'package:zeusfile/presentation/premium/widgets/premium_item.dart';
 import 'package:zeusfile/presentation/widgets/button_app.dart';
 import 'package:zeusfile/presentation/widgets/header_app.dart';
-import 'package:zeusfile/presentation/widgets/popup_item.dart';
 import 'package:zeusfile/presentation/widgets/service_chooser_bottom_sheet.dart';
 import 'package:zeusfile/purchase/cubit/purchase_cubit.dart';
 import 'package:zeusfile/purchase/purchase_service.dart';
@@ -67,36 +64,32 @@ class _PremiumScreenState extends State<PremiumScreen> {
   }
 
   bool isVisible = false;
-  List<SubscribeData> get subscribeData => [
-        SubscribeData(
-            subscriptionType: SubscriptionType.premium,
-            name: 'Premium',
-            price: currentServiceAuth.serviceType == ServiceType.filejoker
-                ? '11.25'
-                : '8.35',
-            traffic: '20 Gb for 3 days',
-            detailSubscribe: DetailSubscribe(
-                premium: 'Maximum download speed',
-                traffic: 'No captcha',
-                space: 'Instant file upload',
-                size: 'Stopping and resuming download',
-                channel: 'Download manager support',
-                prioroty: 'Parallel file download')),
-        SubscribeData(
-            subscriptionType: SubscriptionType.vip,
-            name: 'Premium VIP',
-            price: currentServiceAuth.serviceType == ServiceType.filejoker
-                ? '14.45'
-                : '10.85',
-            traffic: '55 Gb for 3 days',
-            detailSubscribe: DetailSubscribe(
-                premium: 'All premium features',
-                traffic: 'Full traffic encryption',
-                space: '2Х More disk space',
-                size: 'Unlimited file size',
-                channel: 'Dedicated download channels',
-                prioroty: 'Priority support and service')),
-      ];
+  List<SubscribeData> subscribeData = [
+    SubscribeData(
+        subscriptionType: SubscriptionType.premium,
+        name: 'Premium',
+        price: '14.95',
+        traffic: '20 Gb for 3 days',
+        detailSubscribe: DetailSubscribe(
+            premium: 'Maximum download speed',
+            traffic: 'No captcha',
+            space: 'Instant file upload',
+            size: 'Stopping and resuming download',
+            channel: 'Download manager support',
+            prioroty: 'Parallel file download')),
+    SubscribeData(
+        subscriptionType: SubscriptionType.vip,
+        name: 'Premium VIP',
+        price: '22.95',
+        traffic: '55 Gb for 3 days',
+        detailSubscribe: DetailSubscribe(
+            premium: 'All premium features',
+            traffic: 'Full traffic encryption',
+            space: '2Х More disk space',
+            size: 'Unlimited file size',
+            channel: 'Dedicated download channels',
+            prioroty: 'Priority support and service')),
+  ];
 
   Widget get errorWidget => Center(
         child: Container(
@@ -251,27 +244,6 @@ class _PremiumScreenState extends State<PremiumScreen> {
                               ),
                               const SizedBox(height: 16),
                             ])),
-                      ),
-
-                      // Restore purchase
-                      ButtonApp(
-                        text: 'Restore Purchase',
-                        color: accentColor,
-                        onTap: () async {
-                          await MainScreen.checkSubscriptions(context);
-
-                          FToast().removeQueuedCustomToasts();
-                          FToast().showToast(
-                              gravity: ToastGravity.TOP,
-                              toastDuration: const Duration(seconds: 2),
-                              child: PopUpItem(
-                                text: 'Purchase restored',
-                                onTap: () {
-                                  FToast().removeQueuedCustomToasts();
-                                },
-                                textStyle: h2SbStyle,
-                              ));
-                        },
                       )
                     ]);
               });
