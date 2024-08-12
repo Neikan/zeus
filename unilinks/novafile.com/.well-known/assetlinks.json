@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.zeus.file",
+            "sha256_cert_fingerprints": [
+                "4F:20:CE:60:83:87:E3:3B:47:E0:9A:EF:92:B9:C7:D9:72:E7:91:62:11:DD:73:84:5E:F8:4E:DD:0F:DA:6D:05"
+            ]
+        }
+    }
+]

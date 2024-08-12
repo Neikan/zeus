@@ -1,0 +1,13 @@
+{
+  "applinks": {
+      "apps": [],
+      "details": [
+          {
+              "appID": "6K93HNTU4Q.com.zeus.file",
+              "paths": [
+                  "*"
+              ]
+          }
+      ]
+  }
+}

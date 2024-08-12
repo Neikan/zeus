@@ -1,0 +1,10 @@
+{
+Certificate fingerprints:
+         SHA1: 70:48:2B:16:8F:83:F3:0C:42:C8:CD:34:2D:CC:61:B3:95:0F:C2:5F
+         SHA256: 4F:20:CE:60:83:87:E3:3B:47:E0:9A:EF:92:B9:C7:D9:72:E7:91:62:11:DD:73:84:5E:F8:4E:DD:0F:DA:6D:05
+
+storePassword=JO2AMOE~I2bsDXE^SJ#r
+keyPassword=JO2AMOE~I2bsDXE^SJ#r
+keyAlias=upload
+storeFile=upload-keystore.jks
+}
