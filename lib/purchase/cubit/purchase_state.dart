@@ -16,12 +16,13 @@ class PurchaseCubitState extends Equatable {
 
   final List<PurchasedItem>? purchasedItems;
 
-  const PurchaseCubitState(
-      {this.allPurchaseElements = const [],
-      this.purchasedElements = const {},
-      this.purchasedItems = const [],
-      this.initial = false,
-      this.subscriptionResponseMap = const {}});
+  const PurchaseCubitState({
+    this.allPurchaseElements = const [],
+    this.purchasedElements = const {},
+    this.purchasedItems = const [],
+    this.initial = false,
+    this.subscriptionResponseMap = const {},
+  });
 
   const PurchaseCubitState.init()
       : allPurchaseElements = null,
@@ -36,27 +37,24 @@ class PurchaseCubitState extends Equatable {
       ];
 
   Map<ServiceType, bool> get hasSubscription => {
-        ServiceType.filejoker: subscriptionResponseMap[ServiceType.filejoker]
-                ?.any((element) => element.isActive) ??
-            false,
-        ServiceType.novafile: subscriptionResponseMap[ServiceType.novafile]
-                ?.any((element) => element.isActive) ??
-            false,
+        ServiceType.filejoker:
+            subscriptionResponseMap[ServiceType.filejoker]?.any((element) => element.isActive) ??
+                false,
+        ServiceType.novafile:
+            subscriptionResponseMap[ServiceType.novafile]?.any((element) => element.isActive) ??
+                false,
       };
 
-  bool get hasAnySubscription =>
-      (allSubscriptionResponse.any((element) => element.isActive));
+  bool get hasAnySubscription => (allSubscriptionResponse.any((element) => element.isActive));
 
-  List<SubscriptionType> get purchasedSubscriptionType =>
-      (purchasedElements ?? {})
-          .values
-          .map((value) => value.subscriptionElement.subscriptionType)
-          .toList();
+  List<SubscriptionType> get purchasedSubscriptionType => (purchasedElements ?? {})
+      .values
+      .map((value) => value.subscriptionElement.subscriptionType)
+      .toList();
 
-  List<PurchaseElement> get awailablePurchaseElements => (allPurchaseElements ??
-          [])
-      .where((element) => !purchasedSubscriptionType
-          .contains(element.subscriptionElement.subscriptionType))
+  List<PurchaseElement> get awailablePurchaseElements => (allPurchaseElements ?? [])
+      .where((element) =>
+          !purchasedSubscriptionType.contains(element.subscriptionElement.subscriptionType))
       .toList();
 
   PurchaseCubitStateStatus get status {
@@ -76,6 +74,11 @@ class PurchaseCubitState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [initial, allPurchaseElements, purchasedElements, purchasedItems, status];
+  List<Object?> get props => [
+        initial,
+        allPurchaseElements,
+        purchasedElements,
+        purchasedItems,
+        status,
+      ];
 }

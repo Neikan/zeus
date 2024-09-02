@@ -23,43 +23,21 @@ class MainScreen extends StatefulWidget {
 
   @override
   State<MainScreen> createState() => _MainScreenState();
-}
 
-class _MainScreenState extends State<MainScreen> {
-  DateTime? lastPopButtonTappedTime;
-
-  static const Duration popButtonDuration = Duration(seconds: 2);
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Navigating to download widget
-    final UniLinksBloc uniLinksBloc = context.read();
-    if (uniLinksBloc.state is UniLinksUnhandledEventState) {
-      context.read<MainScreenPageIndexCubit>().setPageIndex(pageIndex: 2);
-    }
-
-    // Checking subscriptions
-    checkSubscriptions();
-  }
-
-  void checkSubscriptions() async {
+  static Future<void> checkSubscriptions(BuildContext context) async {
     final PurchaseCubit purchaseCubit = context.read();
     final AuthBloc authBloc = context.read();
 
     await purchaseCubit.init(
         purchaseItemCallback: (purchasedItem) =>
-            PurchaseCubit.purchasedItemCallback(
-                context: context, purchasedItem: purchasedItem));
+            PurchaseCubit.purchasedItemCallback(context: context, purchasedItem: purchasedItem));
 
     final updatedServices = <ServiceType, bool>{
       ServiceType.filejoker: false,
       ServiceType.novafile: false
     };
 
-    for (var purchasedItem
-        in purchaseCubit.state.purchasedItems ?? <PurchasedItem>[]) {
+    for (var purchasedItem in purchaseCubit.state.purchasedItems ?? <PurchasedItem>[]) {
       if (purchasedItem.productId == null) {
         continue;
       }
@@ -79,18 +57,14 @@ class _MainScreenState extends State<MainScreen> {
       updatedServices[purchaseElement.serviceType] = true;
     }
 
-    if (updatedServices[ServiceType.filejoker]! &&
-        authBloc.state.filejokerServiceAuth.authorized) {
+    if (updatedServices[ServiceType.filejoker]! && authBloc.state.filejokerServiceAuth.authorized) {
       final session = authBloc.state.filejokerServiceAuth.session!;
-      authBloc.add(LoadAccountEvent(
-          serviceType: ServiceType.filejoker, session: session));
+      authBloc.add(LoadAccountEvent(serviceType: ServiceType.filejoker, session: session));
     }
 
-    if (updatedServices[ServiceType.novafile]! &&
-        authBloc.state.novafileServiceAuth.authorized) {
+    if (updatedServices[ServiceType.novafile]! && authBloc.state.novafileServiceAuth.authorized) {
       final session = authBloc.state.novafileServiceAuth.session!;
-      authBloc.add(LoadAccountEvent(
-          serviceType: ServiceType.novafile, session: session));
+      authBloc.add(LoadAccountEvent(serviceType: ServiceType.novafile, session: session));
     }
 
     if (authBloc.state.filejokerServiceAuth.authorized) {
@@ -106,6 +80,26 @@ class _MainScreenState extends State<MainScreen> {
     }
 
     purchaseCubit.dispose();
+  }
+}
+
+class _MainScreenState extends State<MainScreen> {
+  DateTime? lastPopButtonTappedTime;
+
+  static const Duration popButtonDuration = Duration(seconds: 2);
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Navigating to download widget
+    final UniLinksBloc uniLinksBloc = context.read();
+    if (uniLinksBloc.state is UniLinksUnhandledEventState) {
+      context.read<MainScreenPageIndexCubit>().setPageIndex(pageIndex: 2);
+    }
+
+    // Checking subscriptions
+    MainScreen.checkSubscriptions(context);
   }
 
   void _onItemTapped(int index) {
@@ -137,8 +131,7 @@ class _MainScreenState extends State<MainScreen> {
       return false;
     }
 
-    if (DateTime.now()
-        .isBefore(lastPopButtonTappedTime!.add(popButtonDuration))) {
+    if (DateTime.now().isBefore(lastPopButtonTappedTime!.add(popButtonDuration))) {
       return true;
     }
 
@@ -156,14 +149,11 @@ class _MainScreenState extends State<MainScreen> {
             backgroundColor: mainBackColor,
             body: _items[selectedPageIndex],
             bottomNavigationBar: BlocListener<UniLinksBloc, UniLinksState>(
-              listenWhen: (previous, current) =>
-                  current is UniLinksUnhandledEventState,
+              listenWhen: (previous, current) => current is UniLinksUnhandledEventState,
               listener: (context, state) {
                 // Navigating to download widget
                 if (state is UniLinksUnhandledEventState) {
-                  context
-                      .read<MainScreenPageIndexCubit>()
-                      .setPageIndex(pageIndex: 2);
+                  context.read<MainScreenPageIndexCubit>().setPageIndex(pageIndex: 2);
                 }
               },
               child: Container(
@@ -183,14 +173,15 @@ class _MainScreenState extends State<MainScreen> {
                   backgroundColor: mainBackColor,
                   items: [
                     BottomNavigationBarItem(
-                        icon: SvgPicture.asset(
-                          selectedPageIndex == 0
-                              ? 'assets/icons/account_active.svg'
-                              : 'assets/icons/account.svg',
-                          width: 24,
-                          height: 24,
-                        ),
-                        label: 'My Account'),
+                      icon: SvgPicture.asset(
+                        selectedPageIndex == 0
+                            ? 'assets/icons/account_active.svg'
+                            : 'assets/icons/account.svg',
+                        width: 24,
+                        height: 24,
+                      ),
+                      label: 'My Account',
+                    ),
                     BottomNavigationBarItem(
                         icon: SvgPicture.asset(
                           selectedPageIndex == 1
@@ -201,32 +192,35 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         label: 'Upload'),
                     BottomNavigationBarItem(
-                        icon: SvgPicture.asset(
-                          selectedPageIndex == 2
-                              ? 'assets/icons/download_active.svg'
-                              : 'assets/icons/download.svg',
-                          width: 24,
-                          height: 24,
-                        ),
-                        label: 'Download'),
+                      icon: SvgPicture.asset(
+                        selectedPageIndex == 2
+                            ? 'assets/icons/download_active.svg'
+                            : 'assets/icons/download.svg',
+                        width: 24,
+                        height: 24,
+                      ),
+                      label: 'Download',
+                    ),
                     BottomNavigationBarItem(
-                        icon: SvgPicture.asset(
-                          selectedPageIndex == 3
-                              ? 'assets/icons/files_active.svg'
-                              : 'assets/icons/files.svg',
-                          width: 24,
-                          height: 24,
-                        ),
-                        label: 'My Files'),
+                      icon: SvgPicture.asset(
+                        selectedPageIndex == 3
+                            ? 'assets/icons/files_active.svg'
+                            : 'assets/icons/files.svg',
+                        width: 24,
+                        height: 24,
+                      ),
+                      label: 'My Files',
+                    ),
                     BottomNavigationBarItem(
-                        icon: SvgPicture.asset(
-                          selectedPageIndex == 4
-                              ? 'assets/icons/premium_active.svg'
-                              : 'assets/icons/premium.svg',
-                          width: 24,
-                          height: 24,
-                        ),
-                        label: 'Premium'),
+                      icon: SvgPicture.asset(
+                        selectedPageIndex == 4
+                            ? 'assets/icons/premium_active.svg'
+                            : 'assets/icons/premium.svg',
+                        width: 24,
+                        height: 24,
+                      ),
+                      label: 'Premium',
+                    ),
                   ],
                 ),
               ),

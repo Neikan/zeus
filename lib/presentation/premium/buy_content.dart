@@ -12,14 +12,12 @@ import 'package:zeusfile/purchase/purchase_service.dart';
 class BuyContentScreen extends StatefulWidget {
   final ServiceType serviceType;
   final SubscriptionType subscriptionType;
-  const BuyContentScreen(
-      {super.key, required this.serviceType, required this.subscriptionType});
+  const BuyContentScreen({super.key, required this.serviceType, required this.subscriptionType});
 
   @override
   State<BuyContentScreen> createState() => _BuyContentScreenState();
   static MaterialPageRoute materialPageRoute(
-          {required ServiceType serviceType,
-          required SubscriptionType subscriptionType}) =>
+          {required ServiceType serviceType, required SubscriptionType subscriptionType}) =>
       MaterialPageRoute(
           builder: (context) => BuyContentScreen(
                 serviceType: serviceType,
@@ -39,14 +37,13 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
     super.initState();
 
     currentPurchaseElemenList = PurchaseElement.getPurchaseElemetList(
-        serviceType: widget.serviceType,
-        subscriptionType: widget.subscriptionType);
+        serviceType: widget.serviceType, subscriptionType: widget.subscriptionType);
     selectedItem = currentPurchaseElemenList.first;
   }
 
   List<Widget> get purchaseElements => currentPurchaseElemenList
-      .map((purchaseElement) => BlocBuilder<PurchaseCubit, PurchaseCubitState>(
-              builder: (context, purchaseCubitState) {
+      .map((purchaseElement) =>
+          BlocBuilder<PurchaseCubit, PurchaseCubitState>(builder: (context, purchaseCubitState) {
             return GestureDetector(
                 onTap: () {
                   setState(() {
@@ -54,10 +51,10 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
                   });
                 },
                 child: ContentPeriod(
-                    alredyBought: (purchaseCubitState.purchasedElements ??
-                            <String, PurchaseElement>{})
-                        .keys
-                        .contains(purchaseElement.productId),
+                    alredyBought:
+                        (purchaseCubitState.purchasedElements ?? <String, PurchaseElement>{})
+                            .keys
+                            .contains(purchaseElement.productId),
                     checkBoxBool: selectedItem == purchaseElement,
                     text: '${purchaseElement.subscriptionElement.days} days',
                     onChanged: (value) {}));
@@ -66,13 +63,12 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
 
   Widget get purchaseProcessWidget => purchaseProcess == null
       ? ButtonApp(
-          text: 'Buy premium',
+          text: 'Buy Premium',
           color: accentColor,
           onTap: () {
             final PurchaseCubit purchaseCubit = context.read();
 
-            if ((purchaseCubit.state.purchasedElements ??
-                    <String, PurchaseElement>{})
+            if ((purchaseCubit.state.purchasedElements ?? <String, PurchaseElement>{})
                 .keys
                 .contains(selectedItem.productId)) {
               FToast().showToast(
@@ -89,8 +85,7 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
               return;
             }
 
-            if (!(purchaseCubit.state.awailablePurchaseElements)
-                .contains(selectedItem)) {
+            if (!(purchaseCubit.state.awailablePurchaseElements).contains(selectedItem)) {
               FToast().showToast(
                   gravity: ToastGravity.TOP,
                   toastDuration: const Duration(seconds: 3),
@@ -107,10 +102,9 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
 
             purchaseCubit.purchaseSubscription(purchaseElement: selectedItem);
             setState(() {
-              purchaseProcess = Future.delayed(const Duration(seconds: 8))
-                  .then((value) => setState(
-                        () => purchaseProcess = null,
-                      ));
+              purchaseProcess = Future.delayed(const Duration(seconds: 8)).then((value) => setState(
+                    () => purchaseProcess = null,
+                  ));
             });
           },
         )
@@ -126,8 +120,7 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(
-            left: 20, right: 20, top: MediaQuery.of(context).padding.top),
+        padding: EdgeInsets.only(left: 20, right: 20, top: MediaQuery.of(context).padding.top),
         color: extractorColor,
         child: SafeArea(
           child: Column(
@@ -147,10 +140,8 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        'Buy ${widget.serviceType.nameRepresent} Premium'
-                            .toUpperCase(),
-                        style: h3RStyle.copyWith(
-                            fontWeight: FontWeight.w600, fontSize: 16),
+                        'Buy ${widget.serviceType.nameRepresent} Premium'.toUpperCase(),
+                        style: h3RStyle.copyWith(fontWeight: FontWeight.w600, fontSize: 16),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -200,9 +191,8 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
                 purchaseProcessWidget,
                 const SizedBox(height: 10),
                 Text(
-                  'By making payment you are setting up recurring subscription. You can cancel your subscription at any time. By continuing, you certify that you are over 18 years of age and accept these terms and conditions.',
-                  style: h2SbAzureStyle.copyWith(
-                      color: menuTextColor, fontSize: 12),
+                  'This App can be used free of charge.\nBy making payment you are setting up recurring subscription.\nYou can cancel your subscription at any time.\nBy continuing, you certify that you are over 18 years of age and accept these terms and conditions.',
+                  style: h2SbAzureStyle.copyWith(color: menuTextColor, fontSize: 12),
                 ),
                 const SizedBox(height: 15),
               ]),

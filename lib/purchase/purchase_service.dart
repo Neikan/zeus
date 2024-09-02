@@ -155,12 +155,15 @@ class PurchaseElement extends Equatable {
 
   static List<IAPItem> listIAPI = [];
 
-  PurchaseElement(
-      {required this.subscriptionElement, required this.serviceType, IAPItem? currentIAPItem})
-      : currentIAPItem = currentIAPItem ??
+  PurchaseElement({
+    required this.subscriptionElement,
+    required this.serviceType,
+    IAPItem? currentIAPItem,
+  }) : currentIAPItem = currentIAPItem ??
             getIAPI(
-                listIAPI: listIAPI,
-                productId: subscriptionElement.getProductId(serviceType: serviceType));
+              listIAPI: listIAPI,
+              productId: subscriptionElement.getProductId(serviceType: serviceType),
+            );
 
   String get purchaseElementName =>
       subscriptionElement.getPurchaseElementName(serviceType: serviceType);
@@ -173,7 +176,10 @@ class PurchaseElement extends Equatable {
 
   String get price => currentIAPItem?.price ?? defaultPrice.toStringAsFixed(2);
 
-  static IAPItem? getIAPI({required List<IAPItem> listIAPI, required String productId}) =>
+  static IAPItem? getIAPI({
+    required List<IAPItem> listIAPI,
+    required String productId,
+  }) =>
       listIAPI.where((element) => element.productId == productId).isEmpty
           ? null
           : listIAPI.firstWhere((element) => element.productId == productId);
@@ -193,11 +199,15 @@ class PurchaseElement extends Equatable {
   static List<PurchaseElement> get allPurchaseElements =>
       [...novafilePurchaseElements, ...filejokerPurchaseElements];
 
-  static List<PurchaseElement> getServicePurchaseElementList({required ServiceType serviceType}) =>
+  static List<PurchaseElement> getServicePurchaseElementList({
+    required ServiceType serviceType,
+  }) =>
       serviceType == ServiceType.filejoker ? filejokerPurchaseElements : novafilePurchaseElements;
 
-  static List<PurchaseElement> getPurchaseElemetList(
-          {required ServiceType serviceType, required SubscriptionType subscriptionType}) =>
+  static List<PurchaseElement> getPurchaseElemetList({
+    required ServiceType serviceType,
+    required SubscriptionType subscriptionType,
+  }) =>
       getServicePurchaseElementList(serviceType: serviceType)
           .where((element) => element.subscriptionElement.subscriptionType == subscriptionType)
           .toList();
@@ -231,7 +241,9 @@ class PurchaseService {
 
   List<PurchasedItem> _pastPurchases = [];
 
-  Future<void> init({void Function(PurchasedItem? purchasedItem)? purchaseCallback}) async {
+  Future<void> init({
+    void Function(PurchasedItem? purchasedItem)? purchaseCallback,
+  }) async {
     purchaseUpdatedSubscription?.cancel();
     purchaseErrorSubscription?.cancel();
 
@@ -257,6 +269,7 @@ class PurchaseService {
     if (Platform.isIOS) {
       return;
     }
+
     List<PurchasedItem> purchasedItems =
         await FlutterInappPurchase.instance.getAvailablePurchases() ?? [];
 

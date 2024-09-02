@@ -15,23 +15,19 @@ class PremiumBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authBlocState) {
-        final premiumExpiresDateTime = authBlocState
-            .getServiceAuth(serviceType: serviceType)
-            .account
-            ?.premiumExpiresDateTime;
+        final premiumExpiresDateTime =
+            authBlocState.getServiceAuth(serviceType: serviceType).account?.premiumExpiresDateTime;
 
         return BlocBuilder<PurchaseCubit, PurchaseCubitState>(
           builder: (context, purchaseCubitState) {
-            final hasAnySubscription =
-                (purchaseCubitState.hasSubscription[serviceType] ?? false) ||
-                    premiumExpiresDateTime != null;
+            final hasAnySubscription = (purchaseCubitState.hasSubscription[serviceType] ?? false) ||
+                premiumExpiresDateTime != null;
 
             return Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
               decoration: const BoxDecoration(
-                  color: extractorColor,
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
+                  color: extractorColor, borderRadius: BorderRadius.all(Radius.circular(10))),
               child: Column(children: [
                 Text(
                   'Premium expires: ${premiumExpiresDateTime?.dateOnlyLocalRepresent}',
@@ -43,14 +39,12 @@ class PremiumBlock extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.only(top: 20),
                     child: ButtonApp(
-                      text: 'Buy premium',
+                      text: 'Select Plan',
                       color: mainBackColor,
                       borderColor: accentColor,
                       textStyle: h2SbWhiteStyle,
                       onTap: () {
-                        context
-                            .read<MainScreenPageIndexCubit>()
-                            .setPageIndex(pageIndex: 4);
+                        context.read<MainScreenPageIndexCubit>().setPageIndex(pageIndex: 4);
                       },
                     ),
                   ),
