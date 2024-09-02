@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zeusfile/constants.dart';
 import 'package:zeusfile/data/statuses_cubit/current_service_cubit.dart';
 import 'package:zeusfile/data/statuses_cubit/network_status_cubit.dart';
 import 'package:zeusfile/presentation/widgets/button_app.dart';
-import 'package:zeusfile/presentation/widgets/popup_item.dart';
 import 'package:zeusfile/presentation/widgets/text_field_app.dart';
 import 'package:zeusfile/utils/enums.dart';
 

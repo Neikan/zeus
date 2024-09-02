@@ -156,20 +156,16 @@ class PurchaseElement extends Equatable {
   static List<IAPItem> listIAPI = [];
 
   PurchaseElement(
-      {required this.subscriptionElement,
-      required this.serviceType,
-      IAPItem? currentIAPItem})
+      {required this.subscriptionElement, required this.serviceType, IAPItem? currentIAPItem})
       : currentIAPItem = currentIAPItem ??
             getIAPI(
                 listIAPI: listIAPI,
-                productId:
-                    subscriptionElement.getProductId(serviceType: serviceType));
+                productId: subscriptionElement.getProductId(serviceType: serviceType));
 
   String get purchaseElementName =>
       subscriptionElement.getPurchaseElementName(serviceType: serviceType);
 
-  String get productId =>
-      subscriptionElement.getProductId(serviceType: serviceType);
+  String get productId => subscriptionElement.getProductId(serviceType: serviceType);
 
   double get defaultPrice => serviceType == ServiceType.filejoker
       ? subscriptionElement.defaultPriceFilejoker
@@ -177,42 +173,33 @@ class PurchaseElement extends Equatable {
 
   String get price => currentIAPItem?.price ?? defaultPrice.toStringAsFixed(2);
 
-  static IAPItem? getIAPI(
-          {required List<IAPItem> listIAPI, required String productId}) =>
+  static IAPItem? getIAPI({required List<IAPItem> listIAPI, required String productId}) =>
       listIAPI.where((element) => element.productId == productId).isEmpty
           ? null
           : listIAPI.firstWhere((element) => element.productId == productId);
 
-  static List<PurchaseElement> get novafilePurchaseElements =>
-      SubscriptionElement.values
-          .map((subscriptionElement) => PurchaseElement(
-              serviceType: ServiceType.novafile,
-              subscriptionElement: subscriptionElement,
-              currentIAPItem: null))
-          .toList();
+  static List<PurchaseElement> get novafilePurchaseElements => SubscriptionElement.values
+      .map((subscriptionElement) => PurchaseElement(
+          serviceType: ServiceType.novafile,
+          subscriptionElement: subscriptionElement,
+          currentIAPItem: null))
+      .toList();
 
-  static List<PurchaseElement> get filejokerPurchaseElements =>
-      SubscriptionElement.values
-          .map((subscriptionType) => PurchaseElement(
-              serviceType: ServiceType.filejoker,
-              subscriptionElement: subscriptionType))
-          .toList();
+  static List<PurchaseElement> get filejokerPurchaseElements => SubscriptionElement.values
+      .map((subscriptionType) => PurchaseElement(
+          serviceType: ServiceType.filejoker, subscriptionElement: subscriptionType))
+      .toList();
 
   static List<PurchaseElement> get allPurchaseElements =>
       [...novafilePurchaseElements, ...filejokerPurchaseElements];
 
-  static List<PurchaseElement> getServicePurchaseElementList(
-          {required ServiceType serviceType}) =>
-      serviceType == ServiceType.filejoker
-          ? filejokerPurchaseElements
-          : novafilePurchaseElements;
+  static List<PurchaseElement> getServicePurchaseElementList({required ServiceType serviceType}) =>
+      serviceType == ServiceType.filejoker ? filejokerPurchaseElements : novafilePurchaseElements;
 
   static List<PurchaseElement> getPurchaseElemetList(
-          {required ServiceType serviceType,
-          required SubscriptionType subscriptionType}) =>
+          {required ServiceType serviceType, required SubscriptionType subscriptionType}) =>
       getServicePurchaseElementList(serviceType: serviceType)
-          .where((element) =>
-              element.subscriptionElement.subscriptionType == subscriptionType)
+          .where((element) => element.subscriptionElement.subscriptionType == subscriptionType)
           .toList();
 
   @override
@@ -220,8 +207,7 @@ class PurchaseElement extends Equatable {
 }
 
 extension ListPurchaseElement on List<PurchaseElement> {
-  List<String> get productIds =>
-      map((purchaseElement) => purchaseElement.productId).toList();
+  List<String> get productIds => map((purchaseElement) => purchaseElement.productId).toList();
 
   PurchaseElement? getPurchaseElement({required String productId}) => any(
         (element) => element.productId == productId,
@@ -229,11 +215,9 @@ extension ListPurchaseElement on List<PurchaseElement> {
           ? firstWhere((element) => element.productId == productId)
           : null;
 
-  List<PurchaseElement> getPurchasedElements(
-          {required List<PurchasedItem> listIAPI}) =>
-      where((purchaseElement) => listIAPI.any(
-              (iapiItem) => iapiItem.productId == purchaseElement.productId))
-          .toList();
+  List<PurchaseElement> getPurchasedElements({required List<PurchasedItem> listIAPI}) =>
+      where((purchaseElement) =>
+          listIAPI.any((iapiItem) => iapiItem.productId == purchaseElement.productId)).toList();
 }
 
 class PurchaseService {
@@ -247,19 +231,16 @@ class PurchaseService {
 
   List<PurchasedItem> _pastPurchases = [];
 
-  Future<void> init(
-      {void Function(PurchasedItem? purchasedItem)? purchaseCallback}) async {
+  Future<void> init({void Function(PurchasedItem? purchasedItem)? purchaseCallback}) async {
     purchaseUpdatedSubscription?.cancel();
     purchaseErrorSubscription?.cancel();
 
     await FlutterInappPurchase.instance.initialize();
 
-    purchaseUpdatedSubscription =
-        FlutterInappPurchase.purchaseUpdated.listen(purchaseCallback);
+    purchaseUpdatedSubscription = FlutterInappPurchase.purchaseUpdated.listen(purchaseCallback);
 
-    purchaseErrorSubscription =
-        FlutterInappPurchase.purchaseError.listen((error) {
-      print('error $error');
+    purchaseErrorSubscription = FlutterInappPurchase.purchaseError.listen((error) {
+      debugPrint('error $error');
     });
   }
 
@@ -299,8 +280,7 @@ class PurchaseService {
 
   Future<List<PurchasedItem>> checkForSubscriptions() async {
     if (Platform.isIOS) {
-      final purchaseHistory =
-          await FlutterInappPurchase.instance.getAvailablePurchases();
+      final purchaseHistory = await FlutterInappPurchase.instance.getAvailablePurchases();
 
       final purchases = <PurchasedItem>[];
 
@@ -309,8 +289,8 @@ class PurchaseService {
           continue;
         }
 
-        final purchaseElement = PurchaseElement.allPurchaseElements
-            .getPurchaseElement(productId: purchase.productId!);
+        final purchaseElement =
+            PurchaseElement.allPurchaseElements.getPurchaseElement(productId: purchase.productId!);
 
         if (purchaseElement == null) continue;
 
@@ -326,8 +306,7 @@ class PurchaseService {
     }
 
     if (Platform.isAndroid) {
-      final purchases =
-          await FlutterInappPurchase.instance.getAvailablePurchases();
+      final purchases = await FlutterInappPurchase.instance.getAvailablePurchases();
 
       return purchases ?? [];
     }
@@ -340,6 +319,6 @@ class PurchaseService {
 
   _verifyPurchase({required PurchasedItem item}) {
     //TODO write some code
-    print('_verifyPurchase for android');
+    debugPrint('_verifyPurchase for android');
   }
 }

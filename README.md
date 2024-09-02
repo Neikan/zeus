@@ -25,7 +25,8 @@ adb shell 'am start -W -a android.intent.action.VIEW -c android.intent.category.
 ```
 
 ## Build android:
-flutter build apk --dart-define=app.flavor=paid --release
+flutter build apk --release --dart-define=app.flavor=paid
+flutter build appbundle --release lib/main.dart --dart-define=app.flavor=paid
 
 ## ActiveSessionResponse example
 
