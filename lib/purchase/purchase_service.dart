@@ -41,17 +41,17 @@ extension SubscriptionElementExtenison on SubscriptionElement {
       case SubscriptionElement.premium180:
         return 89.99;
       case SubscriptionElement.premium90:
-        return 44.95;
+        return 44.99;
       case SubscriptionElement.premium30:
-        return 22.95;
+        return 29.99;
       case SubscriptionElement.premiumVip365:
-        return 172.99;
+        return 174.99;
       case SubscriptionElement.premiumVip180:
-        return 112.99;
+        return 114.99;
       case SubscriptionElement.premiumVip90:
-        return 76.99;
+        return 74.99;
       case SubscriptionElement.premiumVip30:
-        return 36.95;
+        return 36.99;
     }
   }
 
@@ -60,11 +60,11 @@ extension SubscriptionElementExtenison on SubscriptionElement {
       case SubscriptionElement.premium365:
         return 99.99;
       case SubscriptionElement.premium180:
-        return 94.99;
+        return 79.99;
       case SubscriptionElement.premium90:
-        return 59.99;
+        return 35.99;
       case SubscriptionElement.premium30:
-        return 29.95;
+        return 17.99;
       case SubscriptionElement.premiumVip365:
         return 129.99;
       case SubscriptionElement.premiumVip180:
@@ -72,7 +72,7 @@ extension SubscriptionElementExtenison on SubscriptionElement {
       case SubscriptionElement.premiumVip90:
         return 59.99;
       case SubscriptionElement.premiumVip30:
-        return 29.95;
+        return 29.99;
     }
   }
 
