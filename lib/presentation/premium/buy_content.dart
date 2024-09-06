@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -188,6 +190,12 @@ class _BuyContentScreenState extends State<BuyContentScreen> {
                   children: purchaseElements,
                 ),
                 const Spacer(),
+                if (Platform.isAndroid)
+                  Text(
+                    'Please note that at the moment of purchase price may be reflected and charged in your local currency, converted automatically by Google Play Store.',
+                    style: h2SbAzureStyle.copyWith(color: menuTextColor, fontSize: 12),
+                  ),
+                if (Platform.isAndroid) const SizedBox(height: 15),
                 purchaseProcessWidget,
                 const SizedBox(height: 10),
                 Text(

@@ -11,9 +11,6 @@ import 'package:zeusfile/presentation/widgets/button_app.dart';
 import 'package:zeusfile/presentation/widgets/header_app.dart';
 import 'package:zeusfile/presentation/widgets/service_chooser_bottom_sheet.dart';
 import 'package:zeusfile/purchase/cubit/purchase_cubit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:zeusfile/presentation/main/main_screen.dart';
-import 'package:zeusfile/presentation/widgets/popup_item.dart';
 
 part 'widgets/data_error.dart';
 
@@ -110,29 +107,29 @@ class _PremiumScreenState extends State<PremiumScreen> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-                        child: ButtonApp(
-                          text: 'Restore Purchase',
-                          color: accentColor,
-                          onTap: () async {
-                            await MainScreen.checkSubscriptions(context);
+                      // Padding(
+                      //   padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                      //   child: ButtonApp(
+                      //     text: 'Restore Purchase',
+                      //     color: accentColor,
+                      //     onTap: () async {
+                      //       await MainScreen.checkSubscriptions(context);
 
-                            FToast().removeQueuedCustomToasts();
-                            FToast().showToast(
-                              gravity: ToastGravity.TOP,
-                              toastDuration: const Duration(seconds: 2),
-                              child: PopUpItem(
-                                text: 'Purchase restored',
-                                onTap: () {
-                                  FToast().removeQueuedCustomToasts();
-                                },
-                                textStyle: h2SbStyle,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      //       FToast().removeQueuedCustomToasts();
+                      //       FToast().showToast(
+                      //         gravity: ToastGravity.TOP,
+                      //         toastDuration: const Duration(seconds: 2),
+                      //         child: PopUpItem(
+                      //           text: 'Purchase restored',
+                      //           onTap: () {
+                      //             FToast().removeQueuedCustomToasts();
+                      //           },
+                      //           textStyle: h2SbStyle,
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   );
                 },
